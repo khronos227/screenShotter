@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -15,21 +16,27 @@ import javax.imageio.ImageIO;
 public class ScreenShot {
 	private int height;
 	private int width;
+	private String outDir;
 
 	public ScreenShot() {
 		super();
 		Rectangle rect = getScreenSize();
 		this.height = rect.height;
 		this.width = rect.width;
+		this.outDir = "storage";
 	}
 
 	public void shot() throws AWTException, IOException {
+		if (!new File(this.outDir).exists()) {
+			throw new FileNotFoundException();
+		}
+
 		Robot robot = new Robot();
 		BufferedImage image = robot.createScreenCapture(new Rectangle(0, 0,
 				this.width, this.height));
 		long time = System.currentTimeMillis();
-		ImageIO.write(image, "PNG", new File("storage/screenshot-" + time
-				+ ".png"));
+		ImageIO.write(image, "PNG", new File(this.outDir + File.separator
+				+ "screenshot-" + time + ".png"));
 	}
 
 	/**
@@ -57,5 +64,13 @@ public class ScreenShot {
 			}
 		}
 		return new Rectangle(width, height);
+	}
+
+	public void setOutputDir(String dirName) {
+		this.outDir = dirName;
+	}
+
+	public String getOutputDir() {
+		return this.outDir;
 	}
 }
