@@ -4,16 +4,11 @@ import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.HeadlessException;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -73,29 +68,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void setMenuBar() {
-		MenuBar mb = new MenuBar();
-		// メニューの生成
-		Menu mn = new Menu("ファイル");
-		mb.add(mn);
-		// メニュー項目の生成
-		MenuItem mi = new MenuItem("出力先の変更");
-		mi.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				fileChooser.setMultiSelectionEnabled(false);
-				int selected = fileChooser.showOpenDialog(self);
-				if (selected == JFileChooser.APPROVE_OPTION) {
-					File file = fileChooser.getSelectedFile();
-					if (file.isDirectory()) {
-						logic.setOutputDir(file.getAbsolutePath());
-					}
-				}
-			}
-		});
-
-		mn.add(mi);
-		this.setMenuBar(mb);
+		MenuSet menues = new MenuSet(self, logic);
+		this.setMenuBar(menues.createMenuBar());
 	}
 }
