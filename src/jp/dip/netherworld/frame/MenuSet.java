@@ -13,7 +13,6 @@ import jp.dip.netherworld.main.ScreenShot;
 
 public class MenuSet implements ActionListener {
 	private final static String CHANGE_OUTPUT_DIR = "change-output-dir";
-	private final static String OPEN_OUTPUT_DIR = "open-output-dir";
 
 	private ScreenShot logic;
 	private MainFrame mainFrame;
